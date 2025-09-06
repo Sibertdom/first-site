@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Вітаємо!</title>
+</head>
+<body>
+
+<h1 th:text="'Вітаємо, ' + ${user.username} + '!'">Вітаємо!</h1>
+
+<p>Ваші дані:</p>
+<ul>
+    <li>ID: <span th:text="${user.id}"></span></li>
+    <li>Ім'я користувача: <span th:text="${user.username}"></span></li>
+    <li>Email: <span th:text="${user.email}"></span></li>
+</ul>
+
+</body>
+</html>
