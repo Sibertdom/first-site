@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.UserRepository;
-import com.example.demo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +13,12 @@ public class MainController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MessageRepository messageRepository; // Додано новий репозиторій
+
     @GetMapping("/")
-    public String home() {
+    public String home(Model model) {
+        model.addAttribute("messages", messageRepository.findAll()); // Додано отримання всіх повідомлень
         return "index";
     }
 
@@ -29,12 +31,20 @@ public class MainController {
         return "success";
     }
 
+    // Додано новий метод для обробки повідомлень
+    @PostMapping("/messages")
+    public String addMessage(@RequestParam String text) {
+        Message message = new Message();
+        message.setText(text);
+        messageRepository.save(message);
+        return "redirect:/"; // Перенаправлення на головну сторінку
+    }
+
     @PostMapping("/login")
     public String loginUser(@RequestParam String email, @RequestParam String password, Model model) {
         User user = userRepository.findByEmail(email);
 
         if (user != null && user.getPassword().equals(password)) {
-            // Додаємо об'єкт користувача в модель з іменем "user"
             model.addAttribute("user", user);
             return "dashboard";
         } else {

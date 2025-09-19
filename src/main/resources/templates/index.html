@@ -1,40 +1,30 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
 <body>
 
 <h1>Привіт, друзі!</h1>
 <p>Це моя перша сторінка на Spring Boot.</p>
 
-<h2>Реєстрація</h2>
-<form action="/register" method="post">
-    <label for="username">Ім'я користувача:</label><br>
-    <input type="text" id="username" name="username"><br><br>
-
-    <label for="email">Електронна пошта:</label><br>
-    <input type="email" id="email" name="email"><br><br>
-
-    <label for="password">Пароль:</label><br>
-    <input type="password" id="password" name="password"><br><br>
-
-    <input type="submit" value="Зареєструватись">
+<h2>Додати повідомлення</h2>
+<form action="/messages" method="post">
+    <label for="message">Текст повідомлення:</label><br>
+    <input type="text" id="message" name="text" required><br><br>
+    <button type="submit">Надіслати</button>
 </form>
 
-<br><br>
+<br>
 
-<h2>Вхід</h2>
-<form action="/login" method="post">
-    <label for="login-email">Електронна пошта:</label><br>
-    <input type="email" id="login-email" name="email"><br><br>
-
-    <label for="login-password">Пароль:</label><br>
-    <input type="password" id="login-password" name="password"><br><br>
-
-    <input type="submit" value="Увійти">
-</form>
-
-<br><br>
-
-<img src="/images/IMG_20210722_183150Artem.jpg" alt="Моє фото" style="width:200px;height:auto;">
+<h2>Список повідомлень</h2>
+<div th:if="${not #lists.isEmpty(messages)}">
+    <ul>
+        <li th:each="message : ${messages}">
+            <p th:text="${message.text}"></p>
+        </li>
+    </ul>
+</div>
+<div th:if="${#lists.isEmpty(messages)}">
+    <p>Повідомлень поки що немає.</p>
+</div>
 
 </body>
 </html>
